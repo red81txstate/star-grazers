@@ -17,4 +17,7 @@ public class Position {
         return col;
     }
 
+    public boolean isValid() {
+        return row >= 0 && row <= 7 && col >= 0 && col <= 7;
+    }
 }
