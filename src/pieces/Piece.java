@@ -57,4 +57,6 @@ public abstract class Piece {
      * @return a list of possible positions
      */
     public abstract List<Position> possibleMoves(Board board);
+
+    public abstract String getSymbol();
 }

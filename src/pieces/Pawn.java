@@ -72,4 +72,9 @@ public class Pawn extends Piece {
 
         return moves;
     }
+
+    @Override
+    public String getSymbol() {
+        return getColor() == Color.WHITE ? "wp" : "bp";
+    }
 }

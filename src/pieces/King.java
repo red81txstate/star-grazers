@@ -49,4 +49,9 @@ public class King extends Piece {
 
         return moves;
     }
+
+    @Override 
+    public String getSymbol() {
+        return getColor() == Color.WHITE ? "wK" : "bK";
+    }
 }
