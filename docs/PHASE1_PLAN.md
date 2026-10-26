@@ -2,7 +2,7 @@ Phase 1 Plan — Console Chess (CLI Backend)
 
 Team members
 - red81txstate - feature/red81txstate: Board, Display
-- adrianmtz-txst - feature/adrianmtz-txst: Piece hierachy, CLI
+- adrianmtz-txst - adrian-work: Piece hierachy, CLI
 
 ###Milestones
 
