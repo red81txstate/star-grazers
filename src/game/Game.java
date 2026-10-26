@@ -72,5 +72,3 @@ public class Game {
         return new Position(row, col);
     }
 }
-    
-}
