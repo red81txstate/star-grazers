@@ -58,9 +58,8 @@ public class Board {
     }
 
     /** Moves a piece from one square to another. Does not validate legality
-     *  beyond bounds; callers should check rules first.
-     *  @param from source position. @param to   destination position. 
-     *  @return true if the move was applied. */
+     *  beyond bounds; callers should check rules first. @param from source position. 
+     * @param to destination position. @return true if the move was applied. */
     public boolean movePiece(Position from, Position to) {
         if (!from.isValid() || !to.isValid()) return false;
         Piece piece = squares[from.getRow()][from.getCol()];
