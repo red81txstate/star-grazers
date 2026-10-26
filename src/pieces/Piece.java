@@ -1,4 +1,8 @@
 package pieces;
+
+import board.Board;
+import utils.Color;
+import utils.Position;
 import java.util.List;
 
 /**
@@ -6,7 +10,7 @@ import java.util.List;
  */
 public abstract class Piece {
 
-    private String color;
+    private Color color;
     private Position position;
 
     /**
@@ -15,7 +19,7 @@ public abstract class Piece {
      * @param color the color of the piece
      * @param position the starting position of the piece
      */
-    public Piece(String color, Position position) {
+    public Piece(Color color, Position position) {
         this.color = color;
         this.position = position;
     }
@@ -25,7 +29,7 @@ public abstract class Piece {
      *
      * @return the piece's color
      */
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -52,5 +56,5 @@ public abstract class Piece {
      *
      * @return a list of possible positions
      */
-    public abstract List<Position> possibleMoves();
+    public abstract List<Position> possibleMoves(Board board);
 }
