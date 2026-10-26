@@ -67,7 +67,7 @@ public class Board {
 
         squares[to.getRow()][to.getCol()] = piece;
         squares[from.getRow()][from.getCol()] = null;
-        piece.setPosition(to);
+        piece.move(to);
         return true;
     }
 
