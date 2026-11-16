@@ -21,10 +21,8 @@ Reviewed versions of ChessBoardPanel
 Checked for structure of ChessGUI with menu bar (New Game) and side history panel.
 
 Future Plan Ideas
-Move history logging and undo placeholder
 Add full Save/Load using Java serialization.
-Improve Undo so it restores captured pieces.
-Add a Settings window for board colors and size.
+Undo so it restores captured pieces.
 Implement basic movement validation.
 
 Asked: Create Piece.java based on the assignment suggested design
