@@ -2,6 +2,8 @@
 package gui;
 
 import board.Board;
+import game.Game;
+import game.Move;
 import pieces.Piece;
 import utils.Position;
 
@@ -12,14 +14,24 @@ public class ChessBoardPanel extends JPanel {
 
     private Board board;
     private JLabel[][] squares = new JLabel[8][8];
+    private int selectedRow = -1;
+    private int selectedCol = -1;
+    private Color light = new Color(240, 217, 181);
+    private Color dark = new Color(181, 136, 99);
+    private Color highlight = new Color(255, 255, 100);
+    private boolean gameOver = false;
+    private Color whitePieceColor = Color.WHITE;
+    private Color blackPieceColor = Color.BLACK;
+    private String boardStyle = "Classic Brown";
+    private String pieceStyle = "Default";
+    private String boardSize = "Medium";
+    private Game game = new Game();
+    private HistoryPanel historyPanel;
 
     public ChessBoardPanel(Board board) {
         this.board = board;
 
         setLayout(new GridLayout(8, 8));
-
-        Color light = new Color(240, 217, 181);
-        Color dark = new Color(181, 136, 99);
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -32,6 +44,18 @@ public class ChessBoardPanel extends JPanel {
                 square.setFont(new Font("SansSerif", Font.PLAIN, 65));
 
                 squares[row][col] = square;
+
+                final int r = row;
+                final int c = col;
+
+                square.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mousePressed(java.awt.event.MouseEvent e) {
+                        System.out.println("Mouse button: " + e.getButton());
+                        selectSquare(r, c);
+                    }
+                });
+
                 add(square);
             }
         }
@@ -39,43 +63,272 @@ public class ChessBoardPanel extends JPanel {
         refreshBoard();
     }
 
+    /**
+     * Refreshes the display of the chess board.
+     */
     public void refreshBoard() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
 
-                // Reverse rows so White appears at the bottom
+                // Set square color
+                if (row == selectedRow && col == selectedCol) {
+                    squares[row][col].setBackground(highlight);
+                } else {
+                    squares[row][col].setBackground(
+                            (row + col) % 2 == 0 ? dark : light);
+                }
+
+                // Get piece
                 Piece piece = board.getPiece(
-                    new Position(7 - row, col)
-                );
+                        new Position(7 - row, col));
 
                 if (piece == null) {
                     squares[row][col].setText("");
                 } else {
                     squares[row][col].setText(
-                        getUnicodePiece(piece.getSymbol())
-                    );
+                            getUnicodePiece(piece.getSymbol()));
+
+                    // Set piece color
+                    if (piece.getSymbol().startsWith("w")) {
+                        squares[row][col].setForeground(whitePieceColor);
+                    } else {
+                        squares[row][col].setForeground(blackPieceColor);
+                    }
                 }
             }
         }
     }
 
-    private String getUnicodePiece(String symbol) {
-        switch (symbol) {
-            case "wK": return "♔";
-            case "wQ": return "♕";
-            case "wR": return "♖";
-            case "wB": return "♗";
-            case "wN": return "♘";
-            case "wp": return "♙";
+    private void selectSquare(int row, int col) {
+        if (gameOver) {
+            return;
+        }
 
-            case "bK": return "♚";
-            case "bQ": return "♛";
-            case "bR": return "♜";
-            case "bB": return "♝";
-            case "bN": return "♞";
-            case "bp": return "♟";
+        // First click: select a piece
+        if (selectedRow == -1) {
 
-            default: return "";
+            Position position = new Position(7 - row, col);
+
+            if (board.getPiece(position) != null) {
+                selectedRow = row;
+                selectedCol = col;
+            }
+
+        } else {
+
+            Position from = new Position(7 - selectedRow, selectedCol);
+            Position to = new Position(7 - row, col);
+
+            Piece capturedPiece = board.getPiece(to);
+
+            Piece movedPiece = board.getPiece(from);
+
+            Move move = new Move(
+                    movedPiece,
+                    capturedPiece,
+                    from,
+                    to);
+
+            game.addMove(move);
+
+            // Check whether a King is being captured
+            if (capturedPiece != null &&
+                    capturedPiece.getSymbol().endsWith("K")) {
+
+                Piece movingPiece = board.getPiece(from);
+                String winner = movingPiece.getColor().toString();
+                JOptionPane.showMessageDialog(
+                        this,
+                        winner + " wins!",
+                        "Game Over",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                board.movePiece(from, to);
+
+                selectedRow = -1;
+                selectedCol = -1;
+                gameOver = true;
+                refreshBoard();
+
+                return;
+            }
+
+            board.movePiece(from, to);
+
+            selectedRow = -1;
+            selectedCol = -1;
+        }
+
+        refreshBoard();
+
+        if (historyPanel != null) {
+            historyPanel.refreshHistory();
         }
     }
+
+    /**
+     * Sets the style of the chess board.
+     * @param style the style to set.
+     */
+    public void setBoardStyle(String style) {
+        boardStyle = style;
+
+        switch (style) {
+            case "Classic Brown":
+                light = new Color(240, 217, 181);
+                dark = new Color(181, 136, 99);
+                break;
+
+            case "Modern Gray":
+                light = new Color(220, 220, 220);
+                dark = new Color(100, 100, 100);
+                break;
+
+            case "Green":
+                light = new Color(235, 235, 208);
+                dark = new Color(119, 149, 86);
+                break;
+        }
+
+        refreshBoard();
+    }
+
+    /**
+     * Sets the style of the chess pieces.
+     * @param style the style to set.
+     */
+    public void setPieceStyle(String style) {
+        pieceStyle = style;
+
+        switch (style) {
+            case "Default":
+                whitePieceColor = Color.WHITE;
+                blackPieceColor = Color.BLACK;
+                break;
+
+            case "Red and Blue":
+                whitePieceColor = Color.RED;
+                blackPieceColor = Color.BLUE;
+                break;
+
+            case "Black and White":
+                whitePieceColor = Color.BLACK;
+                blackPieceColor = Color.GRAY;
+                break;
+        }
+
+        refreshBoard();
+    }
+
+    private String getUnicodePiece(String symbol) {
+        switch (symbol) {
+            case "wK":
+                return "♔";
+            case "wQ":
+                return "♕";
+            case "wR":
+                return "♖";
+            case "wB":
+                return "♗";
+            case "wN":
+                return "♘";
+            case "wp":
+                return "♙";
+
+            case "bK":
+                return "♚";
+            case "bQ":
+                return "♛";
+            case "bR":
+                return "♜";
+            case "bB":
+                return "♝";
+            case "bN":
+                return "♞";
+            case "bp":
+                return "♟";
+
+            default:
+                return "";
+        }
+    }
+    /**
+     * Undoes the last move made in the game.
+     */
+    public void undoMove() {
+
+        Move move = game.undoLastMove();
+
+        if (move == null) {
+            return;
+        }
+
+        // Move the piece back
+        board.movePiece(move.getTo(), move.getFrom());
+
+        // Restore captured piece, if there was one
+        if (move.getCapturedPiece() != null) {
+            board.restorePiece(move.getTo(), move.getCapturedPiece());
+        }
+
+        // Clear selection
+        selectedRow = -1;
+        selectedCol = -1;
+
+        // Refresh board and history
+        refreshBoard();
+
+        if (historyPanel != null) {
+            historyPanel.refreshHistory();
+        }
+    }
+
+    /**
+     * Retrieves the style of the chess board.
+     * @return the board style.
+     */
+    public String getBoardStyle() {
+        return boardStyle;
+    }
+
+    /**
+     * Retrieves the style of the chess pieces.
+     * @return the piece style.
+     */
+    public String getPieceStyle() {
+        return pieceStyle;
+    }
+
+    /**
+     * Retrieves the size of the chess board.
+     * @return the board size.
+     */
+    public String getBoardSize() {
+        return boardSize;
+    }
+
+    /**
+     * Sets the size of the chess board.
+     * @param size the size to set.
+     */
+    public void setBoardSize(String size) {
+        boardSize = size;
+    }
+
+    /**
+     * Sets the HistoryPanel associated with this ChessBoardPanel.
+     * @param historyPanel the HistoryPanel to set.
+     */
+    public void setHistoryPanel(HistoryPanel historyPanel) {
+        this.historyPanel = historyPanel;
+    }
+
+    /**
+     * Retrieves the Game instance associated with this ChessBoardPanel.
+     * @return the Game instance.
+     */
+    public Game getGame() {
+        return game;
+    }
+
 }

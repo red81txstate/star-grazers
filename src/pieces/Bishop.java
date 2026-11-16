@@ -10,10 +10,20 @@ import java.util.ArrayList;
 
 public class Bishop extends Piece {
 
+    /**
+     * Constructs a Bishop piece with the specified color and position.
+     * @param color the color of the Bishop (WHITE or BLACK).
+     * @param position the initial position of the Bishop on the board.
+     */
     public Bishop(Color color, Position position) {
         super(color, position);
     }
 
+    /**
+     * Calculates the possible moves for the Bishop on the given board.
+     * @param board the current state of the chess board.
+     * @return a list of valid positions the Bishop can move to.
+     */
     @Override
     public List<Position> possibleMoves(Board board) {
         List<Position> moves = new ArrayList<>();
@@ -56,6 +66,10 @@ public class Bishop extends Piece {
 
         return moves;
     }
+    /**
+     * Returns the symbol representing the Bishop piece.
+     * @return "wB" for white Bishop, "bB" for black Bishop.
+     */
     @Override 
     public String getSymbol() {
         return getColor() == Color.WHITE ? "wB" : "bB";

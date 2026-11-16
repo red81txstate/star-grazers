@@ -10,10 +10,20 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
+    /**
+     * Constructs a Pawn piece with the specified color and position.
+     * @param color the color of the Pawn (WHITE or BLACK).
+     * @param position the initial position of the Pawn on the board.
+     */
     public Pawn(Color color, Position position) {
         super(color, position);
     }
 
+    /**
+     * Calculates the possible moves for the Pawn on the given board.
+     * @param board the current state of the chess board.
+     * @return a list of valid positions the Pawn can move to.
+     */
     @Override
     public List<Position> possibleMoves(Board board) {
         List<Position> moves = new ArrayList<>();
@@ -73,6 +83,10 @@ public class Pawn extends Piece {
         return moves;
     }
 
+    /**
+     * Returns the symbol representing the Pawn piece.
+     * @return "wp" for white Pawn, "bp" for black Pawn.
+     */
     @Override
     public String getSymbol() {
         return getColor() == Color.WHITE ? "wp" : "bp";

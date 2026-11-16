@@ -58,5 +58,10 @@ public abstract class Piece {
      */
     public abstract List<Position> possibleMoves(Board board);
 
+    /**
+     * Returns the symbol representing the piece.
+     *
+     * @return a string symbol for the piece
+     */
     public abstract String getSymbol();
 }

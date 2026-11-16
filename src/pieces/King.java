@@ -10,10 +10,20 @@ import java.util.ArrayList;
 
 public class King extends Piece {
 
+    /**
+     * Constructs a King piece with the specified color and position.
+     * @param color the color of the King (WHITE or BLACK).
+     * @param position the initial position of the King on the board.
+     */
     public King(Color color, Position position) {
         super(color, position);
     }
 
+    /**
+     * Calculates the possible moves for the King on the given board.
+     * @param board the current state of the chess board.
+     * @return a list of valid positions the King can move to.
+     */
     @Override
     public List<Position> possibleMoves(Board board) {
         List<Position> moves = new ArrayList<>();
@@ -50,6 +60,10 @@ public class King extends Piece {
         return moves;
     }
 
+    /**
+     * Returns the symbol representing the King piece.
+     * @return "wK" for white King, "bK" for black King.
+     */
     @Override 
     public String getSymbol() {
         return getColor() == Color.WHITE ? "wK" : "bK";

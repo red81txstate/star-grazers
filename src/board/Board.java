@@ -10,11 +10,17 @@ public class Board {
     private final Piece[][] squares;
 
     // Creates an empty board.
+    /**
+     * Creates an empty 8x8 board.
+     */
     public Board() {
         squares = new Piece[8][8];
     }
 
     // Places all pieces in their standard starting positions.
+    /**
+     * Initializes the board with pieces in their standard starting positions.
+     */
     public void initialize() {
         // Clear board
         for (int r = 0; r < 8; r++) {
@@ -50,29 +56,54 @@ public class Board {
         }
     }
 
-    /** Returns the piece at the given position, or null if empty.
-     *  @param pos the position to query. @return the piece, or null. */
+    /**
+     * Returns the piece at the given position, or null if empty.
+     * 
+     * @param pos the position to query. @return the piece, or null.
+     */
     public Piece getPiece(Position pos) {
-        if (!pos.isValid()) return null;
+        if (!pos.isValid())
+            return null;
         return squares[pos.getRow()][pos.getCol()];
     }
 
-    /** Moves a piece from one square to another. Does not validate legality
-     *  beyond bounds; callers should check rules first. @param from source position. 
-     * @param to destination position. @return true if the move was applied. */
+    /**
+     * Moves a piece from one square to another. Does not validate legality
+     * beyond bounds; callers should check rules first. @param from source position.
+     * 
+     * @param to destination position. @return true if the move was applied.
+     */
     public boolean movePiece(Position from, Position to) {
-        if (!from.isValid() || !to.isValid()) return false;
+        if (!from.isValid() || !to.isValid())
+            return false;
         Piece piece = squares[from.getRow()][from.getCol()];
-        if (piece == null) return false;
+        if (piece == null)
+            return false;
 
         squares[to.getRow()][to.getCol()] = piece;
         squares[from.getRow()][from.getCol()] = null;
         piece.move(to);
         return true;
     }
+    /**
+     * Restores a piece to a given position, used for undoing moves. @param pos the
+     * position to restore to. @param piece the piece to place (null for empty).
+     */
+    public void restorePiece(Position pos, Piece piece) {
+        if (!pos.isValid())
+            return;
 
-    /** Prints the board to the console in the required format with file labels
-     *  on top and rank labels on the left. Empty squares are shown as "##". */
+        squares[pos.getRow()][pos.getCol()] = piece;
+
+        if (piece != null) {
+            piece.move(pos);
+        }
+    }
+
+    /**
+     * Prints the board to the console in the required format with file labels
+     * on top and rank labels on the left. Empty squares are shown as "##".
+     */
     public void display() {
         System.out.println();
         System.out.print("   ");
@@ -96,14 +127,20 @@ public class Board {
         System.out.println();
     }
 
-    /** Placeholder for check detection. Returns false in Phase 1.
-     *  @param color the color to test. @return false (not yet implemented). */
+    /**
+     * Placeholder for check detection. Returns false in Phase 1.
+     * 
+     * @param color the color to test. @return false (not yet implemented).
+     */
     public boolean isCheck(Color color) {
         return false;
     }
 
-    /** Placeholder for checkmate detection. Returns false in Phase 1.
-     *  @param color the color to test. @return false (not yet implemented). */
+    /**
+     * Placeholder for checkmate detection. Returns false in Phase 1.
+     * 
+     * @param color the color to test. @return false (not yet implemented).
+     */
     public boolean isCheckmate(Color color) {
         return false;
     }
