@@ -1,26 +1,35 @@
 
-
 package gui;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import java.awt.BorderLayout;
 import board.Board;
 
 public class ChessGUI extends JFrame {
 
-    
-public ChessGUI() {
-    setTitle("Chess Game");
-    setSize(800, 800);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setLocationRelativeTo(null);
+    public ChessGUI() {
+        setTitle("Chess Game");
+        setSize(800, 800);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-    Board board = new Board();
-    board.initialize();
+        Board board = new Board();
+        board.initialize();
 
-    add(new ChessBoardPanel(board));
+        ChessBoardPanel boardPanel = new ChessBoardPanel(board);
+        add(boardPanel);
 
-    setVisible(true);
-}
+        JButton settingsButton = new JButton("Settings");
+
+        settingsButton.addActionListener(e -> {
+            new SettingsWindow(this, boardPanel);
+        });
+
+        add(settingsButton, BorderLayout.SOUTH);
+
+        setVisible(true);
+    }
 
 }
