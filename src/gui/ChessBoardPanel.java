@@ -17,6 +17,7 @@ public class ChessBoardPanel extends JPanel {
     private Color light = new Color(240, 217, 181);
     private Color dark = new Color(181, 136, 99);
     private Color highlight = new Color(255, 255, 100);
+    private boolean gameOver = false;
 
     public ChessBoardPanel(Board board) {
         this.board = board;
@@ -78,6 +79,9 @@ public class ChessBoardPanel extends JPanel {
     }
 
     private void selectSquare(int row, int col) {
+        if (gameOver) {
+            return;
+        }
 
         // First click: select a piece
         if (selectedRow == -1) {
@@ -91,9 +95,33 @@ public class ChessBoardPanel extends JPanel {
 
         } else {
 
-            // Second click: move the piece
             Position from = new Position(7 - selectedRow, selectedCol);
             Position to = new Position(7 - row, col);
+
+            Piece capturedPiece = board.getPiece(to);
+
+            // Check whether a King is being captured
+            if (capturedPiece != null &&
+                    capturedPiece.getSymbol().endsWith("K")) {
+
+
+                Piece movingPiece = board.getPiece(from);
+                String winner = movingPiece.getColor().toString();
+                JOptionPane.showMessageDialog(
+                        this,
+                        winner + " wins!",
+                        "Game Over",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                board.movePiece(from, to);
+
+                selectedRow = -1;
+                selectedCol = -1;
+                gameOver = true;
+                refreshBoard();
+
+                return;
+            }
 
             board.movePiece(from, to);
 
