@@ -12,11 +12,11 @@ Movement validation is intentionally not required (per assignment).
 Features Implemented
 - 8×8 chessboard with alternating light/dark squares (White at bottom)
 - Starting position pieces displayed with distinct symbols
-- Click-to-move (select piece → click destination)
+- Click to move (select piece → click destination)
 - Capture logic (moving onto an opponent’s piece removes it)
 - King-capture endgame: popup declares the winner and exits
 - Extra features:
-  - Menu bar with New Game
+  - Settings window
   - Move history panel
 
 Console Chess — Phase 1 (CLI Backend)
@@ -57,10 +57,14 @@ How to Play
 
 Example session
 
-   A  B  C  D  E  F  G  H  
+   A  B  C  D  E  F  G  H
+   
 8  bR bN bB bQ bK bB bN bR 
+
 7  bp bp bp bp bp bp bp bp 
+
 6  ## ## ## ## ## ## ## ## 
+
 ...
 White to move.
 Enter move (FROM TO): E2 E4
@@ -83,7 +87,7 @@ Not Implemented (Phase 1 limitations)
 - En passant
 - Pawn promotion
 - Check / checkmate / stalemate detection
-- Move history or undo
+- Undo
 - AI opponent
 
 Project Structure
