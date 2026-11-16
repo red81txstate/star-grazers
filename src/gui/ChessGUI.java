@@ -19,7 +19,13 @@ public class ChessGUI extends JFrame {
         board.initialize();
 
         ChessBoardPanel boardPanel = new ChessBoardPanel(board);
-        add(boardPanel);
+
+        HistoryPanel historyPanel = new HistoryPanel(boardPanel.getGame(), boardPanel);
+
+        boardPanel.setHistoryPanel(historyPanel);
+
+        add(boardPanel, BorderLayout.CENTER);
+        add(historyPanel, BorderLayout.EAST);
 
         JButton settingsButton = new JButton("Settings");
 

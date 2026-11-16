@@ -4,12 +4,15 @@ import board.Board;
 import pieces.Piece;
 import utils.Color;
 import utils.Position;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
     private Board board;
     private Color currentTurn;
     private Scanner scanner;
+    private ArrayList<Move> moveHistory = new ArrayList<>();
 
     public Game() {
         board = new Board();
@@ -42,11 +45,13 @@ public class Game {
 
     private boolean processMove(String input) {
         String[] parts = input.toUpperCase().split("\\s+");
-        if (parts.length != 2) return false;
+        if (parts.length != 2)
+            return false;
 
         Position from = parsePosition(parts[0]);
         Position to = parsePosition(parts[1]);
-        if (from == null || to == null) return false;
+        if (from == null || to == null)
+            return false;
 
         Piece piece = board.getPiece(from);
         if (piece == null) {
@@ -65,10 +70,29 @@ public class Game {
     }
 
     private Position parsePosition(String alg) {
-        if (alg.length() != 2) return null;
+        if (alg.length() != 2)
+            return null;
         int col = alg.charAt(0) - 'A';
         int row = alg.charAt(1) - '1';
-        if (col < 0 || col > 7 || row < 0 || row > 7) return null;
+        if (col < 0 || col > 7 || row < 0 || row > 7)
+            return null;
         return new Position(row, col);
+    }
+
+    public Move undoLastMove() {
+
+        if (moveHistory.isEmpty()) {
+            return null;
+        }
+
+        return moveHistory.remove(moveHistory.size() - 1);
+    }
+
+    public void addMove(Move move) {
+        moveHistory.add(move);
+    }
+
+    public ArrayList<Move> getMoveHistory() {
+        return moveHistory;
     }
 }

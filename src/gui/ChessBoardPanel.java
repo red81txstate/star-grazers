@@ -2,6 +2,8 @@
 package gui;
 
 import board.Board;
+import game.Game;
+import game.Move;
 import pieces.Piece;
 import utils.Position;
 
@@ -23,6 +25,8 @@ public class ChessBoardPanel extends JPanel {
     private String boardStyle = "Classic Brown";
     private String pieceStyle = "Default";
     private String boardSize = "Medium";
+    private Game game = new Game();
+    private HistoryPanel historyPanel;
 
     public ChessBoardPanel(Board board) {
         this.board = board;
@@ -114,6 +118,16 @@ public class ChessBoardPanel extends JPanel {
 
             Piece capturedPiece = board.getPiece(to);
 
+            Piece movedPiece = board.getPiece(from);
+
+            Move move = new Move(
+                    movedPiece,
+                    capturedPiece,
+                    from,
+                    to);
+
+            game.addMove(move);
+
             // Check whether a King is being captured
             if (capturedPiece != null &&
                     capturedPiece.getSymbol().endsWith("K")) {
@@ -143,6 +157,10 @@ public class ChessBoardPanel extends JPanel {
         }
 
         refreshBoard();
+
+        if (historyPanel != null) {
+            historyPanel.refreshHistory();
+        }
     }
 
     public void setBoardStyle(String style) {
@@ -224,6 +242,34 @@ public class ChessBoardPanel extends JPanel {
         }
     }
 
+    public void undoMove() {
+
+        Move move = game.undoLastMove();
+
+        if (move == null) {
+            return;
+        }
+
+        // Move the piece back
+        board.movePiece(move.getTo(), move.getFrom());
+
+        // Restore captured piece, if there was one
+        if (move.getCapturedPiece() != null) {
+            board.restorePiece(move.getTo(), move.getCapturedPiece());
+        }
+
+        // Clear selection
+        selectedRow = -1;
+        selectedCol = -1;
+
+        // Refresh board and history
+        refreshBoard();
+
+        if (historyPanel != null) {
+            historyPanel.refreshHistory();
+        }
+    }
+
     public String getBoardStyle() {
         return boardStyle;
     }
@@ -238,6 +284,14 @@ public class ChessBoardPanel extends JPanel {
 
     public void setBoardSize(String size) {
         boardSize = size;
+    }
+
+    public void setHistoryPanel(HistoryPanel historyPanel) {
+        this.historyPanel = historyPanel;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
 }
