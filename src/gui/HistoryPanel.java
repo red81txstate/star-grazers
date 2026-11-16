@@ -15,6 +15,11 @@ public class HistoryPanel extends JPanel {
     private JTextArea historyText;
     private ChessBoardPanel boardPanel;
 
+    /**
+     * Constructs a HistoryPanel to display the history of moves in the game.
+     * @param game the Game instance to track.
+     * @param boardPanel the ChessBoardPanel associated with this history panel.
+     */
     public HistoryPanel(Game game, ChessBoardPanel boardPanel) {
 
         this.game = game;
@@ -44,6 +49,9 @@ public class HistoryPanel extends JPanel {
         refreshHistory();
     }
 
+    /**
+     * Refreshes the history display to show the latest moves and captured pieces.
+     */
     public void refreshHistory() {
 
         StringBuilder text = new StringBuilder();

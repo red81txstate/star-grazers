@@ -10,10 +10,20 @@ import java.util.ArrayList;
 
 public class Rook extends Piece {
 
+    /**
+     * Constructs a Rook piece with the specified color and position.
+     * @param color the color of the Rook (WHITE or BLACK).
+     * @param position the initial position of the Rook on the board.
+     */
     public Rook(Color color, Position position) {
         super(color, position);
     }
 
+    /**
+     * Calculates the possible moves for the Rook on the given board.
+     * @param board the current state of the chess board.
+     * @return a list of valid positions the Rook can move to.
+     */
     @Override
     public List<Position> possibleMoves(Board board) {
         List<Position> moves = new ArrayList<>();
@@ -59,6 +69,10 @@ public class Rook extends Piece {
         return moves;
     }
 
+    /**
+     * Returns the symbol representing the Rook piece.
+     * @return "wR" for white Rook, "bR" for black Rook.
+     */
     @Override
     public String getSymbol() {
         return getColor() == Color.WHITE ? "wR" : "bR";

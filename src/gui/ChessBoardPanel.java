@@ -63,6 +63,9 @@ public class ChessBoardPanel extends JPanel {
         refreshBoard();
     }
 
+    /**
+     * Refreshes the display of the chess board.
+     */
     public void refreshBoard() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -163,6 +166,10 @@ public class ChessBoardPanel extends JPanel {
         }
     }
 
+    /**
+     * Sets the style of the chess board.
+     * @param style the style to set.
+     */
     public void setBoardStyle(String style) {
         boardStyle = style;
 
@@ -186,6 +193,10 @@ public class ChessBoardPanel extends JPanel {
         refreshBoard();
     }
 
+    /**
+     * Sets the style of the chess pieces.
+     * @param style the style to set.
+     */
     public void setPieceStyle(String style) {
         pieceStyle = style;
 
@@ -241,7 +252,9 @@ public class ChessBoardPanel extends JPanel {
                 return "";
         }
     }
-
+    /**
+     * Undoes the last move made in the game.
+     */
     public void undoMove() {
 
         Move move = game.undoLastMove();
@@ -270,26 +283,50 @@ public class ChessBoardPanel extends JPanel {
         }
     }
 
+    /**
+     * Retrieves the style of the chess board.
+     * @return the board style.
+     */
     public String getBoardStyle() {
         return boardStyle;
     }
 
+    /**
+     * Retrieves the style of the chess pieces.
+     * @return the piece style.
+     */
     public String getPieceStyle() {
         return pieceStyle;
     }
 
+    /**
+     * Retrieves the size of the chess board.
+     * @return the board size.
+     */
     public String getBoardSize() {
         return boardSize;
     }
 
+    /**
+     * Sets the size of the chess board.
+     * @param size the size to set.
+     */
     public void setBoardSize(String size) {
         boardSize = size;
     }
 
+    /**
+     * Sets the HistoryPanel associated with this ChessBoardPanel.
+     * @param historyPanel the HistoryPanel to set.
+     */
     public void setHistoryPanel(HistoryPanel historyPanel) {
         this.historyPanel = historyPanel;
     }
 
+    /**
+     * Retrieves the Game instance associated with this ChessBoardPanel.
+     * @return the Game instance.
+     */
     public Game getGame() {
         return game;
     }

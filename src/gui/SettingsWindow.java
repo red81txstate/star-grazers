@@ -13,6 +13,11 @@ public class SettingsWindow extends JFrame {
     private JComboBox<String> pieceStyle;
     private JComboBox<String> boardSize;
 
+    /**
+     * Constructs a SettingsWindow for adjusting chess board and piece settings.
+     * @param mainFrame the main JFrame of the application.
+     * @param boardPanel the ChessBoardPanel to apply settings to.
+     */
     public SettingsWindow(JFrame mainFrame, ChessBoardPanel boardPanel) {
 
         this.mainFrame = mainFrame;
@@ -80,7 +85,7 @@ public class SettingsWindow extends JFrame {
 
         String size = (String) boardSize.getSelectedItem();
         boardPanel.setBoardSize(size);
-        
+
         switch (size) {
             case "Small":
                 mainFrame.setSize(600, 600);

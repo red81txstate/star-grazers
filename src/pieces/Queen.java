@@ -10,10 +10,20 @@ import java.util.ArrayList;
 
 public class Queen extends Piece {
 
+    /**
+     * Constructs a Queen piece with the specified color and position.
+     * @param color the color of the Queen (WHITE or BLACK).
+     * @param position the initial position of the Queen on the board.
+     */
     public Queen(Color color, Position position) {
         super(color, position);
     }
 
+    /**
+     * Calculates the possible moves for the Queen on the given board.
+     * @param board the current state of the chess board.
+     * @return a list of valid positions the Queen can move to.
+     */
     @Override
     public List<Position> possibleMoves(Board board) {
         List<Position> moves = new ArrayList<>();
@@ -54,6 +64,10 @@ public class Queen extends Piece {
         return moves;
     }
 
+    /**
+     * Returns the symbol representing the Queen piece.
+     * @return "wQ" for white Queen, "bQ" for black Queen.
+     */
     @Override
     public String getSymbol() {
         return getColor() == Color.WHITE ? "wQ" : "bQ";

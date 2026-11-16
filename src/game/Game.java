@@ -14,6 +14,9 @@ public class Game {
     private Scanner scanner;
     private ArrayList<Move> moveHistory = new ArrayList<>();
 
+    /**
+     * Creates a new game instance.
+     */
     public Game() {
         board = new Board();
         board.initialize();
@@ -21,6 +24,9 @@ public class Game {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Starts the game.
+     */
     public void start() {
         System.out.println("Console Chess - Phase 1");
         System.out.println("Enter moves like: E2 E4");
@@ -42,6 +48,7 @@ public class Game {
             }
         }
     }
+
 
     private boolean processMove(String input) {
         String[] parts = input.toUpperCase().split("\\s+");
@@ -79,6 +86,10 @@ public class Game {
         return new Position(row, col);
     }
 
+    /**
+     * Undoes the last move made in the game.
+     * @return the undone move, or null if no moves are available.
+     */
     public Move undoLastMove() {
 
         if (moveHistory.isEmpty()) {
@@ -88,10 +99,18 @@ public class Game {
         return moveHistory.remove(moveHistory.size() - 1);
     }
 
+    /**
+     * Adds a move to the game's move history.
+     * @param move the move to add.
+     */
     public void addMove(Move move) {
         moveHistory.add(move);
     }
 
+    /**
+     * Retrieves the history of moves made in the game.
+     * @return an ArrayList of Move objects representing the move history.
+     */
     public ArrayList<Move> getMoveHistory() {
         return moveHistory;
     }

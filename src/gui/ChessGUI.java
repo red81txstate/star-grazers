@@ -9,6 +9,9 @@ import board.Board;
 
 public class ChessGUI extends JFrame {
 
+    /**
+     * Constructs the main Chess GUI window.
+     */
     public ChessGUI() {
         setTitle("Chess Game");
         setSize(800, 800);

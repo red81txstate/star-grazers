@@ -10,11 +10,17 @@ public class Board {
     private final Piece[][] squares;
 
     // Creates an empty board.
+    /**
+     * Creates an empty 8x8 board.
+     */
     public Board() {
         squares = new Piece[8][8];
     }
 
     // Places all pieces in their standard starting positions.
+    /**
+     * Initializes the board with pieces in their standard starting positions.
+     */
     public void initialize() {
         // Clear board
         for (int r = 0; r < 8; r++) {
@@ -79,7 +85,10 @@ public class Board {
         piece.move(to);
         return true;
     }
-
+    /**
+     * Restores a piece to a given position, used for undoing moves. @param pos the
+     * position to restore to. @param piece the piece to place (null for empty).
+     */
     public void restorePiece(Position pos, Piece piece) {
         if (!pos.isValid())
             return;
